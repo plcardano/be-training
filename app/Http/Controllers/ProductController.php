@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
@@ -20,15 +21,16 @@ class ProductController extends Controller
             'filters' => Request::all('search'),
             'products' => Product::with('category')
                 ->filter(Request::only('search'))
+                ->orderBy('created_at', 'desc')
                 ->paginate(10)
                 ->withQueryString()
-                ->through(fn ($product) => [
-                    'id' => $product->id,
-                    'name' => $product->name,
-                    'description' => $product->description,
-                    'date' => $product->date,
-                    'category' => $product->category ? $product->category->only('name') : null
-                ])
+                // ->through(fn ($product) => [
+                //     'id' => $product->id,
+                //     'name' => $product->name,
+                //     'description' => $product->description,
+                //     'date' => $product->date,
+                //     'category' => $product->category ? $product->category->only('name') : null
+                // ])
         ]);
     }
 
@@ -40,7 +42,7 @@ class ProductController extends Controller
     public function create()
     {
         return Inertia::render('Products/Create', [
-            'category' => Category::pluck('name')->get()
+            'categories' => Category::all()
         ]);
     }
 
@@ -50,9 +52,13 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        Product::create($request->validated());
+
+        session()->flash('flash.banner', 'Product Created Successfuly');
+        session()->flash('flash.bannerStyle', 'success');
+        return redirect()->route('products.index');
     }
 
     /**

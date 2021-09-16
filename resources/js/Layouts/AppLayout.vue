@@ -227,8 +227,9 @@
             </header>
 
             <!-- Page Content -->
-            
+            <!-- <flash-messages /> -->
             <main>
+                
                 <slot></slot>
             </main>
         </div>
@@ -243,6 +244,7 @@
     import JetDropdownLink from '@/Jetstream/DropdownLink.vue'
     import JetNavLink from '@/Jetstream/NavLink.vue'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
+    import FlashMessages from '@/Components/FlashMessages.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
     export default defineComponent({
@@ -259,6 +261,7 @@
             JetNavLink,
             JetResponsiveNavLink,
             Link,
+            FlashMessages
         },
 
         data() {

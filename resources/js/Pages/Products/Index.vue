@@ -18,8 +18,8 @@
                         
                             <button class="ml-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500" type="button" @click="reset">Reset</button>
                         </div>
-                        <jet-button class="mb-4">
-                            Create Product
+                        <jet-button type="button" class="mb-4">
+                           <Link :href="route('products.create')">Create Product</Link>
                         </jet-button>
                     </div>
                     
@@ -106,6 +106,7 @@
     import throttle from 'lodash/throttle'
     import mapValues from 'lodash/mapValues'
     import pickBy from 'lodash/pickBy'
+    import { Link } from '@inertiajs/inertia-vue3'
 
     export default defineComponent({
         components: {
@@ -113,6 +114,7 @@
             Pagination,
             JetInput,
             JetButton,
+            Link
         },
         props: {
             value: String,
