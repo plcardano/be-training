@@ -11,7 +11,13 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5">
                     <div class="flex justify-between">
-                        <jet-input type="text" class="block ml-2 mb-4 w-60" placeholder="Search Product..."/>
+                        <div class="flex items-center">
+                            <div class="flex w-full bg-white">
+                                <jet-input class="relative w-full px-6 py-3 mb-4 rounded-r focus:ring" v-model="form.search" autocomplete="off" type="text" name="search" placeholder="Search…" />
+                            </div>
+                        
+                            <button class="ml-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500" type="button" @click="reset">Reset</button>
+                        </div>
                         <jet-button class="mb-4">
                             Create Product
                         </jet-button>
@@ -42,7 +48,7 @@
                                         </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr v-for="product in products" :key="product.id">
+                                        <tr v-for="product in products.data" :key="product.id">
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
@@ -59,9 +65,12 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">
-                                                {{ product.description }}
-                                                </div>
+                                                    <div v-if="product.description.legth<30" class="text-sm font-medium text-gray-900">
+                                                    {{ product.description }}
+                                                    </div>
+                                                    <div v-else class="text-sm font-medium text-gray-900">
+                                                    {{ product.description.substring(0,30)+"..." }}
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
@@ -89,35 +98,46 @@
 </template>
 
 <script>
-    // import { defineComponent } from 'vue'
+    import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import Pagination from '@/Components/Pagination.vue'
+    import Pagination from '@/Components/Pagination'
     import JetInput from '@/Jetstream/Input.vue'
     import JetButton from '@/Jetstream/Button.vue'
+    import throttle from 'lodash/throttle'
+    import mapValues from 'lodash/mapValues'
+    import pickBy from 'lodash/pickBy'
 
-    export default {
+    export default defineComponent({
         components: {
             AppLayout,
             Pagination,
             JetInput,
-            JetButton
+            JetButton,
         },
         props: {
+            value: String,
             products: Object,
+            filters: Object,
         },
-        // setup(props) {
-        //     const form = reactive({
-        //         search: props.filters.search,
-        //         page: props.filters.page,
-        //     });
-
-        //     watchEffect(() => {
-        //         const query = pickBy(form);
-
-        //         Inertia.replace(
-        //             route("products.index", Object.keys(query).length ? query : {})
-        //         );
-        //     });
-        // }
-    }
+        data() {
+            return {
+                form: {
+                    search: this.filters.search,
+                },
+            }
+        },
+        watch: {
+            form: {
+                deep: true,
+                handler: throttle(function() {
+                    this.$inertia.get(this.route('products.index'), pickBy(this.form), { preserveState: true })
+                }, 150),
+            },
+        },
+        methods: {
+            reset() {
+                this.form = mapValues(this.form, () => null)
+            },
+        },
+    })
 </script>

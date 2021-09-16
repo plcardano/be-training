@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 
 class ProductController extends Controller
 {
@@ -14,22 +14,21 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $queries = ['search'];
-        
         return Inertia::render('Products/Index', [
-            // 'products' => Product::with('category')
-            //     ->filter($request->only($queries))
-            //     ->paginate(10)
-            //     ->withQueryString(),
-            // 'filters' => $request->all($queries)
-            // 'products' => Product::filter($request->only($queries))
-            //     ->paginate()
-            //     ->withQueryString(),
-            // 'filters' => $request->all($queries)
-
-            'products' => Product::with('category')->paginate(10)
+            'filters' => Request::all('search'),
+            'products' => Product::with('category')
+                ->filter(Request::only('search'))
+                ->paginate(10)
+                ->withQueryString()
+                ->through(fn ($product) => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'description' => $product->description,
+                    'date' => $product->date,
+                    'category' => $product->category ? $product->category->only('name') : null
+                ])
         ]);
     }
 
