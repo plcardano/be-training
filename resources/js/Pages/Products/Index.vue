@@ -77,7 +77,7 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <pagination class="m-6" :links="product.links" />
+                                    <pagination class="m-6" :links="products.links" />
                                 </div>
                             </div>
                         </div>
@@ -89,13 +89,13 @@
 </template>
 
 <script>
-    import { defineComponent } from 'vue'
+    // import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import Pagination from '@/Components/Pagination.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetButton from '@/Jetstream/Button.vue'
 
-    export default defineComponent({
+    export default {
         components: {
             AppLayout,
             Pagination,
@@ -104,7 +104,6 @@
         },
         props: {
             products: Object,
-            filters: Object,
         },
         // setup(props) {
         //     const form = reactive({
@@ -120,5 +119,5 @@
         //         );
         //     });
         // }
-    })
+    }
 </script>

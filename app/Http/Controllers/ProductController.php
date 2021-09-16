@@ -28,6 +28,7 @@ class ProductController extends Controller
             //     ->paginate()
             //     ->withQueryString(),
             // 'filters' => $request->all($queries)
+
             'products' => Product::with('category')->paginate(10)
         ]);
     }
