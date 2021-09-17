@@ -30,17 +30,17 @@
                                     <table class="min-w-full divide-y divide-gray-200">
                                         <thead class="bg-gray-50">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Name
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                                                Name
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Category
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                                                Category
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Description
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                                                Description
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Date
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                                                Date
                                             </th>
                                             <th scope="col" class="relative px-6 py-3">
                                             <span class="sr-only">Edit</span>
@@ -66,22 +66,26 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="ml-4">
                                                     <div v-if="product.description.legth<30" class="text-sm font-medium text-gray-900">
-                                                    {{ product.description }}
+                                                        {{ product.description }}
                                                     </div>
                                                     <div v-else class="text-sm font-medium text-gray-900">
-                                                    {{ product.description.substring(0,30)+"..." }}
+                                                        {{ product.description.substring(0,30)+"..." }}
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                {{ product.date }}
+                                                    {{ product.date }}
                                                 </div>
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">                                            
+                                                <Link :href="route('products.edit', product.id)" class="text-indigo-400 hover:text-indigo-900">Edit</Link>
+                                                <!-- <Link :href="route('products.destroy', product.id)" type="button" class="text-red-400 hover:text-red-900 ml-4">Delete</Link> -->
+                                                <!-- <form @submit="destroy()"> -->
+                                                    <button class="text-red-400 hover:text-red-900 ml-4" type="button" @click="destroy(product.id)">Delete</button>
+                                                <!-- </form> -->
                                             </td>
                                         </tr>
                                         </tbody>
@@ -140,6 +144,11 @@
             reset() {
                 this.form = mapValues(this.form, () => null)
             },
+            destroy(id) {
+                if (confirm('Are you sure you want to delete this product?')) {
+                    this.$inertia.delete(this.route('products.destroy', id))
+                }
+            }
         },
     })
 </script>

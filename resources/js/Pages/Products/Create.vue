@@ -9,9 +9,17 @@
         <div class="py-12 p-5">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5">
-                    <h1 class="font-semibold text-xl text-gray-800 leading-tight mb-4">
-                        Create Product
-                    </h1>
+                    <div class="flex justify-between">
+                        <h1 class="font-semibold text-xl text-gray-800 leading-tight mb-4">
+                            Create Product
+                        </h1>
+                        <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }">
+                            <Link :href="route('products.index')">
+                                Back
+                            </Link>
+                        </jet-button>
+                    </div>
+                    
                         <jet-validation-errors class="mb-4" />
 
                         <form @submit.prevent="store">
@@ -37,7 +45,7 @@
 
                             <div class="mt-4">
                                 <jet-label for="date" value="Date" />
-                                <jet-input id="date" type="date" class="mt-1 block w-full" v-model="form.date" :error="form.errors.date" required />
+                                <jet-input id="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :error="form.errors.date" required />
                             </div>
 
                             <div class="flex items-center justify-end mt-4">

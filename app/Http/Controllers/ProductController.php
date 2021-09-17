@@ -24,13 +24,6 @@ class ProductController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
                 ->withQueryString()
-                // ->through(fn ($product) => [
-                //     'id' => $product->id,
-                //     'name' => $product->name,
-                //     'description' => $product->description,
-                //     'date' => $product->date,
-                //     'category' => $product->category ? $product->category->only('name') : null
-                // ])
         ]);
     }
 
@@ -80,7 +73,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return Inertia::render('Products/Edit', [
+            'categories' => Category::all(),
+            'product' => $product
+        ]);
     }
 
     /**
@@ -90,9 +86,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(StoreProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->validated());
+
+        session()->flash('flash.banner', 'Product Updated Successfuly');
+        session()->flash('flash.bannerStyle', 'success');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -103,6 +103,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        session()->flash('flash.banner', 'Product Deleted Successfuly');
+        session()->flash('flash.bannerStyle', 'success');
+        // return redirect()->back();
+        return redirect()->route('products.index');
     }
 }
