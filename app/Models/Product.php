@@ -13,7 +13,8 @@ class Product extends Model
         'name',
         'category_id',
         'description',
-        'date'
+        'date',
+        'images'
     ];
 
     public function category()
@@ -28,6 +29,19 @@ class Product extends Model
                 $query->where('name', 'like', '%'.$search.'%')
                     ->orWhere('description', 'like', '%'.$search.'%');
             });
-        });
+            })->when($filters['category'] ?? null, function ($query, $category) {
+                $query->where(function ($query) use ($category) {
+                    $query->where('category_id', 'like', '%'.$category.'%');
+                
+            });
+        });    
+    }
+
+    public function getPostImageAttribute($value) 
+    {
+        if (strpos($value, 'https://') !== FALSE || strpos($value, 'http://') !== FALSE) {
+            return $value;
+        }
+        return asset('storage/' .$value);
     }
 }

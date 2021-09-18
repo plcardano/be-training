@@ -18,12 +18,13 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Products/Index', [
-            'filters' => Request::all('search'),
+            'filters' => Request::all('search', 'category'),
             'products' => Product::with('category')
-                ->filter(Request::only('search'))
+                ->filter(Request::only('search', 'category'))
                 ->orderBy('created_at', 'desc')
                 ->paginate(10)
-                ->withQueryString()
+                ->withQueryString(),
+            'categories' => Category::all()
         ]);
     }
 
@@ -47,7 +48,14 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        Product::create($request->validated());
+        
+        $inputs = $request->validated();
+
+        if ($request->images) {
+            $inputs['images'] = $request->images->store('images');
+        }
+
+        Product::create($inputs);
 
         session()->flash('flash.banner', 'Product Created Successfuly');
         session()->flash('flash.bannerStyle', 'success');
@@ -88,7 +96,19 @@ class ProductController extends Controller
      */
     public function update(StoreProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        $inputs = $request->validated();
+
+        if ($request->images) {
+            $inputs['images'] = $request->images->store('images');
+            $product->images = $inputs['images'];
+        }
+
+        $product->name = $inputs['name'];
+        $product->category_id = $inputs['category_id'];
+        $product->desciption = $inputs['desciption'];
+        $product->date = $inputs['date'];
+
+        $product->update();
 
         session()->flash('flash.banner', 'Product Updated Successfuly');
         session()->flash('flash.bannerStyle', 'success');
@@ -107,7 +127,7 @@ class ProductController extends Controller
 
         session()->flash('flash.banner', 'Product Deleted Successfuly');
         session()->flash('flash.bannerStyle', 'success');
-        // return redirect()->back();
-        return redirect()->route('products.index');
+        return redirect()->back();
+        // return redirect()->route('products.index');
     }
 }

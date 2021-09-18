@@ -47,6 +47,13 @@
                                 <jet-input id="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :value="form.date" :error="form.errors.date" required />
                             </div>
 
+                            <div class="mt-4">
+                                <input name="images" type="file" @input="form.images = $event.target.files[0]" multiple />
+                                <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                                    {{ form.progress.percentage }}%
+                                </progress>
+                            </div>
+
                             <div class="flex items-center justify-end mt-4">
                                 <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                     Save
@@ -97,7 +104,8 @@
                     name: this.product.name,
                     category_id: this.product.category_id,
                     description: this.product.description,
-                    date: this.product.date
+                    date: this.product.date,
+                    images: this.product.images
                 })
             }
         },

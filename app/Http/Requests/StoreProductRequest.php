@@ -30,6 +30,7 @@ class StoreProductRequest extends FormRequest
             'category_id' => ['required'],
             'description' => ['required', 'string', 'max:255'],
             'date' => ['required'],
+            'images' => ['file'] 
         ];
     }
 }

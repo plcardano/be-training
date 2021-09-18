@@ -11,9 +11,14 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5">
                     <div class="flex justify-between">
-                        <div class="flex items-center">
-                            <div class="flex w-full bg-white">
-                                <jet-input class="relative w-full px-6 py-3 mb-4 rounded-r focus:ring" v-model="form.search" autocomplete="off" type="text" name="search" placeholder="Search…" />
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-start space-y-0 space-x-5 w-full bg-white">
+                                <jet-input class="text-sm relative w-full mb-4 rounded-r focus:ring" v-model="form.search" autocomplete="off" type="text" name="search" placeholder="Search…" />
+                                <!-- <jet-label for="category" value="Filter by Category" class="items-end text-sm" /> -->
+                                <select v-model="form.category" class="text-sm text-gray-500 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                    <option :value="null">Filter by Category...</option>
+                                    <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+                                </select>
                             </div>
                         
                             <button class="ml-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500" type="button" @click="reset">Reset</button>
@@ -107,6 +112,7 @@
     import Pagination from '@/Components/Pagination'
     import JetInput from '@/Jetstream/Input.vue'
     import JetButton from '@/Jetstream/Button.vue'
+    import JetLabel from '@/Jetstream/Label.vue'
     import throttle from 'lodash/throttle'
     import mapValues from 'lodash/mapValues'
     import pickBy from 'lodash/pickBy'
@@ -118,17 +124,20 @@
             Pagination,
             JetInput,
             JetButton,
+            JetLabel,
             Link
         },
         props: {
             value: String,
             products: Object,
             filters: Object,
+            categories: Array
         },
         data() {
             return {
                 form: {
                     search: this.filters.search,
+                    category: this.filters.category
                 },
             }
         },
