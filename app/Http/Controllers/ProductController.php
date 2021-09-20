@@ -17,6 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        
         return Inertia::render('Products/Index', [
             'filters' => Request::all('search', 'category'),
             'products' => Product::with('category')
@@ -52,7 +53,9 @@ class ProductController extends Controller
         $inputs = $request->validated();
 
         if ($request->images) {
-            $inputs['images'] = $request->images->store('images');
+            $filename = $request->images->getClientOriginalName();
+            $file = $request->images->storeAs(('images'), $filename);
+            $inputs['images'] = $file;
         }
 
         Product::create($inputs);
@@ -60,6 +63,7 @@ class ProductController extends Controller
         session()->flash('flash.banner', 'Product Created Successfuly');
         session()->flash('flash.bannerStyle', 'success');
         return redirect()->route('products.index');
+        
     }
 
     /**

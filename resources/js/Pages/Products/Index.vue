@@ -36,7 +36,7 @@
                                         <thead class="bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
-                                                Name
+                                               Name
                                             </th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                                                 Category
@@ -135,9 +135,17 @@
         },
         data() {
             return {
+                params: {
+                    search: null,
+                    category: null,
+                }
+            }
+        },
+        data() {
+            return {
                 form: {
                     search: this.filters.search,
-                    category: this.filters.category
+                    category: this.filters.category,
                 },
             }
         },
@@ -157,7 +165,7 @@
                 if (confirm('Are you sure you want to delete this product?')) {
                     this.$inertia.delete(this.route('products.destroy', id))
                 }
-            }
+            },
         },
     })
 </script>

@@ -22,12 +22,14 @@
         "postcss": "^8.1.14",
         "postcss-import": "^12.0.1",
         "tailwindcss": "^2.0.1",
+        "video.js": "^7.15.4",
         "vue": "^3.0.5",
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
         "@headlessui/vue": "^1.4.1",
         "@heroicons/vue": "^1.0.4",
+        "videojs-vimeo-v2": "^2.0.2",
         "vue2-datepicker": "^3.10.1",
         "vue3-datepicker": "^0.2.5",
         "vue3-file-selector": "^1.0.1"

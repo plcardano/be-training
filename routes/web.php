@@ -32,4 +32,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     //Products
     Route::resource('products', ProductController::class);
+
+    //ViedoJs
+    Route::get('/videos', function() {
+        return Inertia::render('Videojs/Index');
+    })->middleware('auth')->name('videos');
 });

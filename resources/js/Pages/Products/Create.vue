@@ -49,45 +49,31 @@
                                 <jet-input id="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :error="form.errors.date" required />
                             </div>
 
-                            <!-- <div class="mt-4">
-                                <input name="images" type="file" @input="form.images = $event.target.files[0]" multiple />
+                            <div class="mt-4">
+                                <jet-label for="images" value="Images" />
+                                <input multiple="multiple" enctype="multipart/form-data" name="images" type="file" @input="form.images = $event.target.files[0]" class="p-2 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" />
                                 <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                     {{ form.progress.percentage }}%
                                 </progress>
-                            </div> -->
-
-                            <div class="mt-4">
-                                <jet-label for="images" value="Images" />
-                                <file-selector v-model="files">
-                                    <dropzone v-slot="{ hovered }">
-                                        <div
-                                        class="block w-full h-64 rounded-lg border-4 border-dashed border-gray-400 transition-colors duration-150 flex flex-col space-y-4 justify-center items-center"
-                                        :class="{ 'border-blue-200': hovered }"
-                                        >
-                                        <ul>
-                                            <li v-for="file in files" :key="file.name">
-                                            {{ file.name }}
-                                            </li>
-                                        </ul>
-                                        <dialog-button class="bg-indigo-500 hover:bg-indigo-400 transition-colors duration-150 rounded text-white px-4 py-2">
-                                            Add files...
-                                        </dialog-button>
-                                        <div class="bg-indigo-400 rounded text-white px-2 py-1">
-                                            <img v-for="preview in previews" :key="preview" :src="preview" />
-                                        </div>
-                                        </div>
-                                    </dropzone>
-                                </file-selector>
                             </div>
 
                             <!-- <div class="mt-4">
                                 <jet-label for="images" value="Images" />
-                                <file-selector v-model="files" :accept="['image/png', 'image/jpeg']">
-                                    <dialog-button>Add images...</dialog-button>
-                                    <div>
-                                        <img v-for="preview in previews" :key="preview" :src="preview" />
+                                <file-selector v-model="files" ref="files" :accept="['image/png', 'image/jpeg']">
+                                    <dialog-button class="mt-1 block w-full border-gray-700 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">Add images...</dialog-button>
+                                    <div class="w-40">
+                                        <img v-for="preview in previews" :key="preview" :src="preview" class="mb-4" />
                                     </div>
                                 </file-selector>
+                            </div> -->
+
+                            <!-- <div class="mt-4">
+                                <jet-label for="images" value="Images" />
+                                <input type="file" ref="files" name="image" multiple @change="imageChange">
+                            </div>
+
+                            <div class="mt-4">
+                                <p v-for="(image,index) in images" :key="index">{{ image.name }}</p>
                             </div> -->
 
                             <div class="flex items-center justify-end mt-4">
@@ -95,6 +81,7 @@
                                     Save
                                 </jet-button>
                             </div>
+                            
                         </form>
                 </div>
             </div>
@@ -138,39 +125,41 @@
         },
         
         data() {
-            const files = ref([])
-            const previews = ref([])
-
-            const toBlob = async (file) => {
-            const buffer = await file.arrayBuffer()
-            const blob = new Blob([buffer])
-            const srcBlob = URL.createObjectURL(blob)
-
-            return srcBlob
-            }
-
-            watch(files, async () => {
-                previews.value = await Promise.all(
-                    files.value.map((file) => toBlob(file))
-            )
-            })
-
             return {
                 form: this.$inertia.form({
                     name: null,
                     category_id: null,
                     description: null,
                     date: null,
-                    images: null
+                    images: [],
                 }),
-                files,
-                previews,
             }
         },
 
         methods: {
+            // imageChange(e){
+            //     let selectedFiles = e.target.files;
+
+            //     if (!selectedFiles.length) {
+            //         return false;
+            //     }
+
+            //     for (let i = 0; i < selectedFiles.length; i++) {
+            //         this.images.push(selectedFiles[i]);                                      
+            //     }
+            // },
             store() {
-                this.form.post(this.route('products.store'))
+                // for (let i = 0; i < this.images.length; i++) {
+                //     this.form.append('pics[]', this.images[i]);                    
+                // }
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+
+                this.form.post(this.route('products.store'), config)
             },
         }
     })

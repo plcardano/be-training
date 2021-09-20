@@ -12,6 +12,9 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+        {{-- VideoJs --}}
+        <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
@@ -22,5 +25,7 @@
         {{-- @env ('local')
             <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
         @endenv --}}
+
+        <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     </body>
 </html>
