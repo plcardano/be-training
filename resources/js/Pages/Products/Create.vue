@@ -51,30 +51,11 @@
 
                             <div class="mt-4">
                                 <jet-label for="images" value="Images" />
-                                <input multiple="multiple" enctype="multipart/form-data" name="images" type="file" @input="form.images = $event.target.files[0]" class="p-2 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" />
+                                <input multiple name="images" type="file" @input="form.images = $event.target.files[0]" class="p-2 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" />
                                 <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                     {{ form.progress.percentage }}%
                                 </progress>
                             </div>
-
-                            <!-- <div class="mt-4">
-                                <jet-label for="images" value="Images" />
-                                <file-selector v-model="files" ref="files" :accept="['image/png', 'image/jpeg']">
-                                    <dialog-button class="mt-1 block w-full border-gray-700 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">Add images...</dialog-button>
-                                    <div class="w-40">
-                                        <img v-for="preview in previews" :key="preview" :src="preview" class="mb-4" />
-                                    </div>
-                                </file-selector>
-                            </div> -->
-
-                            <!-- <div class="mt-4">
-                                <jet-label for="images" value="Images" />
-                                <input type="file" ref="files" name="image" multiple @change="imageChange">
-                            </div>
-
-                            <div class="mt-4">
-                                <p v-for="(image,index) in images" :key="index">{{ image.name }}</p>
-                            </div> -->
 
                             <div class="flex items-center justify-end mt-4">
                                 <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
@@ -100,8 +81,6 @@
     import JetLabel from '@/Jetstream/Label.vue'
     import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
-    import { FileSelector, Dropzone, DialogButton } from 'vue3-file-selector'
-    import { ref, watch } from 'vue';
 
     export default defineComponent({
         components: {
@@ -115,9 +94,6 @@
             JetLabel,
             JetValidationErrors,
             Link,
-            FileSelector,
-            Dropzone,
-            DialogButton,
         },
         props: {
             categories: Array,
@@ -131,35 +107,14 @@
                     category_id: null,
                     description: null,
                     date: null,
-                    images: [],
+                    images: null,
                 }),
             }
         },
 
         methods: {
-            // imageChange(e){
-            //     let selectedFiles = e.target.files;
-
-            //     if (!selectedFiles.length) {
-            //         return false;
-            //     }
-
-            //     for (let i = 0; i < selectedFiles.length; i++) {
-            //         this.images.push(selectedFiles[i]);                                      
-            //     }
-            // },
             store() {
-                // for (let i = 0; i < this.images.length; i++) {
-                //     this.form.append('pics[]', this.images[i]);                    
-                // }
-
-                const config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-
-                this.form.post(this.route('products.store'), config)
+                this.form.post(this.route('products.store'))
             },
         }
     })

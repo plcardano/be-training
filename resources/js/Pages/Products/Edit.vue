@@ -44,11 +44,12 @@
 
                             <div class="mt-4">
                                 <jet-label for="date" value="Date" />
-                                <jet-input id="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :value="form.date" :error="form.errors.date" required />
+                                <jet-input id="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :value="form.date" :error="form.errors.date" />
                             </div>
 
                             <div class="mt-4">
-                                <input name="images" type="file" @input="form.images = $event.target.files[0]" multiple />
+                                <jet-label for="images" value="Images" />
+                                <input multiple name="images" type="file" @input="form.images = $event.target.files[0]" class="p-2 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" />
                                 <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                     {{ form.progress.percentage }}%
                                 </progress>
@@ -58,11 +59,15 @@
                                 <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                     Save
                                 </jet-button>
-                                <jet-button class="ml-4" @click="destroy">
-                                    Delete
-                                </jet-button>
+                                
                             </div>
                         </form>
+                        <div class="flex justify-end mt-2">
+                            <jet-button class="ml-4" @click="destroy">
+                                    Delete
+                            </jet-button>
+                        </div>
+                        
                 </div>
             </div>
         </div>
@@ -81,7 +86,7 @@
     import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
-    export default defineComponent({
+    export default {
         components: {
             AppLayout,
             Head,
@@ -98,6 +103,7 @@
             product: Object,
             categories: Array
         },
+        remember: 'form',
         data() {
             return {
                 form: this.$inertia.form({
@@ -105,7 +111,7 @@
                     category_id: this.product.category_id,
                     description: this.product.description,
                     date: this.product.date,
-                    images: this.product.images
+                    images: null
                 })
             }
         },
@@ -116,9 +122,9 @@
             },
             destroy() {
                 if (confirm('Are you sure you want to delete this product?')) {
-                    this.form.delete(this.route('products.destroy', this.product.id))
+                    this.$inertia.delete(this.route('products.destroy', this.product.id))
                 }                
             },
         }
-    })
+    }
 </script>

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProductRequest;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Request;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -52,13 +53,15 @@ class ProductController extends Controller
         
         $inputs = $request->validated();
 
-        if ($request->images) {
+        if ($request->file('images')) {
             $filename = $request->images->getClientOriginalName();
             $file = $request->images->storeAs(('images'), $filename);
             $inputs['images'] = $file;
         }
 
-        Product::create($inputs);
+       
+        
+        Product::create($inputs);        
 
         session()->flash('flash.banner', 'Product Created Successfuly');
         session()->flash('flash.bannerStyle', 'success');
@@ -98,19 +101,22 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         $inputs = $request->validated();
 
-        if ($request->images) {
-            $inputs['images'] = $request->images->store('images');
-            $product->images = $inputs['images'];
-        }
 
+        if ($request->file('images')) {
+            $filename = $request->images->getClientOriginalName();
+            $file = $request->images->storeAs(('images'), $filename);
+            $inputs['images'] = $file;
+            $product->images = $inputs['images'];  
+        }
+        
         $product->name = $inputs['name'];
         $product->category_id = $inputs['category_id'];
-        $product->desciption = $inputs['desciption'];
-        $product->date = $inputs['date'];
+        $product->description = $inputs['description'];
+        $product->date = $inputs['date']; 
 
         $product->update();
 
@@ -131,7 +137,6 @@ class ProductController extends Controller
 
         session()->flash('flash.banner', 'Product Deleted Successfuly');
         session()->flash('flash.bannerStyle', 'success');
-        return redirect()->back();
-        // return redirect()->route('products.index');
+        return redirect()->route('products.index');
     }
 }

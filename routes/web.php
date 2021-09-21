@@ -36,5 +36,5 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     //ViedoJs
     Route::get('/videos', function() {
         return Inertia::render('Videojs/Index');
-    })->middleware('auth')->name('videos');
+    })->name('videos');
 });
