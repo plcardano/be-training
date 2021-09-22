@@ -28,6 +28,10 @@
         <ul>
             <li>php artisan key:generate</li>
         </ul>
+    <li>Link storage:</li>
+        <ul>
+            <li>php artisan storage:link</li>
+        </ul>
     <li>Migrate database:</li>
         <ul>
             <li>php artisan migrate --seed</li>

@@ -54,13 +54,12 @@ class ProductController extends Controller
         $inputs = $request->validated();
 
         if ($request->file('images')) {
-            $filename = $request->images->getClientOriginalName();
+            $filename = time() . '_' . $request->images->getClientOriginalName();
             $file = $request->images->storeAs(('images'), $filename);
             $inputs['images'] = $file;
         }
-
        
-        
+       
         Product::create($inputs);        
 
         session()->flash('flash.banner', 'Product Created Successfuly');

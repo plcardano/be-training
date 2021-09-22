@@ -36,6 +36,9 @@
                                         <thead class="bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                                               Image
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                                                Name
                                             </th>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
@@ -54,6 +57,13 @@
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
                                         <tr v-for="product in products.data" :key="product.id">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    <img height="50" :src="product.images ? '/storage/' + product.images : 'https://via.placeholder.com/200'" alt="Product Image">
+                                                </div>
+                                                </div>
+                                            </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
@@ -86,11 +96,8 @@
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">                                            
-                                                <Link :href="route('products.edit', product.id)" class="text-indigo-400 hover:text-indigo-900">Edit</Link>
-                                                <!-- <Link :href="route('products.destroy', product.id)" type="button" class="text-red-400 hover:text-red-900 ml-4">Delete</Link> -->
-                                                <!-- <form @submit="destroy()"> -->
-                                                    <button class="text-red-400 hover:text-red-900 ml-4" type="button" @click="destroy(product.id)">Delete</button>
-                                                <!-- </form> -->
+                                                <Link :href="route('products.edit', product.id)" class="text-indigo-400 hover:text-indigo-900">Edit</Link>                                        
+                                                    <button class="text-red-400 hover:text-red-900 ml-4" type="button" @click="destroy(product.id)">Delete</button>                                                
                                             </td>
                                         </tr>
                                         </tbody>

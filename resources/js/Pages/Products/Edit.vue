@@ -55,6 +55,11 @@
                                 </progress>
                             </div>
 
+                            <div class="mt-4">
+                                <jet-label for="imagePreview" value="Preview" />
+                                <img height="300" width="300" :src="getImage()" alt="Product Image">
+                            </div>
+
                             <div class="flex items-center justify-end mt-4">
                                 <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                     Save
@@ -63,7 +68,7 @@
                             </div>
                         </form>
                         <div class="flex justify-end mt-2">
-                            <jet-button class="ml-4" @click="destroy">
+                            <jet-button class="ml-4 hover:bg-red-400 bg-red-500" @click="destroy">
                                     Delete
                             </jet-button>
                         </div>
@@ -86,7 +91,7 @@
     import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
 
-    export default {
+    export default defineComponent ({
         components: {
             AppLayout,
             Head,
@@ -111,12 +116,15 @@
                     category_id: this.product.category_id,
                     description: this.product.description,
                     date: this.product.date,
-                    images: null
+                    images: this.product.images
                 })
             }
         },
-
         methods: {
+            getImage() {
+                let image = this.product.images ? '/storage/'+ this.product.images : 'https://via.placeholder.com/200'
+                return image
+            },               
             update() {
                 this.form.put(this.route('products.update', this.product.id))
             },
@@ -126,5 +134,6 @@
                 }                
             },
         }
-    }
+    })
+    
 </script>
