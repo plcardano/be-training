@@ -1618,10 +1618,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
-.bg-red-800 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(153, 27, 27, var(--tw-bg-opacity));
-}
 .bg-red-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
@@ -2018,18 +2014,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
-.hover\:bg-red-900:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
-}
-.hover\:bg-red-700:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
-}
-.hover\:bg-red-800:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(153, 27, 27, var(--tw-bg-opacity));
-}
 .hover\:bg-red-400:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(248, 113, 113, var(--tw-bg-opacity));
@@ -2117,10 +2101,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
-.focus\:bg-red-700:focus {
-	--tw-bg-opacity: 1;
-	background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
-}
 .focus\:text-gray-700:focus {
 	--tw-text-opacity: 1;
 	color: rgba(55, 65, 81, var(--tw-text-opacity));
@@ -2184,14 +2164,6 @@ select {
 .active\:bg-gray-50:active {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
-}
-.active\:bg-red-800:active {
-	--tw-bg-opacity: 1;
-	background-color: rgba(153, 27, 27, var(--tw-bg-opacity));
-}
-.active\:bg-red-900:active {
-	--tw-bg-opacity: 1;
-	background-color: rgba(127, 29, 29, var(--tw-bg-opacity));
 }
 .active\:text-gray-700:active {
 	--tw-text-opacity: 1;

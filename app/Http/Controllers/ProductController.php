@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Http\Request as a;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -53,12 +54,11 @@ class ProductController extends Controller
         
         $inputs = $request->validated();
 
-        if ($request->file('images')) {
+        if ($request->hasFile('images')) {
             $filename = time() . '_' . $request->images->getClientOriginalName();
             $file = $request->images->storeAs(('images'), $filename);
             $inputs['images'] = $file;
         }
-       
        
         Product::create($inputs);        
 
@@ -103,21 +103,19 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         $inputs = $request->validated();
-
-
-        if ($request->file('images')) {
+        
+        if ($request->file('images') ? $request->file('images') : null) {
             $filename = $request->images->getClientOriginalName();
             $file = $request->images->storeAs(('images'), $filename);
-            $inputs['images'] = $file;
-            $product->images = $inputs['images'];  
+            $product->images = $file;
         }
-        
+         
         $product->name = $inputs['name'];
         $product->category_id = $inputs['category_id'];
         $product->description = $inputs['description'];
         $product->date = $inputs['date']; 
-
-        $product->update();
+               
+        $product->update(array_merge($inputs, ['images' => $product->images]));
 
         session()->flash('flash.banner', 'Product Updated Successfuly');
         session()->flash('flash.bannerStyle', 'success');

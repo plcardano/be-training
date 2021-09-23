@@ -46,11 +46,11 @@
 
                             <div class="mt-4">
                                 <jet-label for="date" value="Date" />
-                                <jet-input id="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :error="form.errors.date" required />
-                            </div>
+                                <jet-input name="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :error="form.errors.date" required />
+                            </div>              
 
                             <div class="mt-4">
-                                <jet-label for="images" value="Images" />
+                                <jet-label for="images" value="Image" />
                                 <input multiple name="images" type="file" @input="form.images = $event.target.files[0]" class="p-2 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" />
                                 <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                     {{ form.progress.percentage }}%
@@ -115,7 +115,7 @@
         methods: {
             store() {
                 this.form.post(this.route('products.store'))
-            },
+            },        
         }
     })
 </script>

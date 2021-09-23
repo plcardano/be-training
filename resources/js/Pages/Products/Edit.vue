@@ -44,11 +44,16 @@
 
                             <div class="mt-4">
                                 <jet-label for="date" value="Date" />
-                                <jet-input id="date" type="datetime-local" class="mt-1 block w-full" v-model="form.date" :value="form.date" :error="form.errors.date" />
+                                <jet-input :value="form.date" name="date" class="mt-1 block w-full" type="text" disabled />
                             </div>
 
                             <div class="mt-4">
-                                <jet-label for="images" value="Images" />
+                                <jet-label for="date" value="Update Date" />
+                                <jet-input type="datetime-local" class="mt-1 block w-full" v-model="form.date" :error="form.errors.date" />
+                            </div>
+
+                            <div class="mt-4">
+                                <jet-label for="images" value="Update Image" />
                                 <input multiple name="images" type="file" @input="form.images = $event.target.files[0]" class="p-2 mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" />
                                 <progress v-if="form.progress" :value="form.progress.percentage" max="100">
                                     {{ form.progress.percentage }}%
@@ -66,6 +71,7 @@
                                 </jet-button>
                                 
                             </div>
+
                         </form>
                         <div class="flex justify-end mt-2">
                             <jet-button class="ml-4 hover:bg-red-400 bg-red-500" @click="destroy">
@@ -108,7 +114,6 @@
             product: Object,
             categories: Array
         },
-        remember: 'form',
         data() {
             return {
                 form: this.$inertia.form({
@@ -116,17 +121,20 @@
                     category_id: this.product.category_id,
                     description: this.product.description,
                     date: this.product.date,
-                    images: this.product.images
+                    images: null
                 })
             }
-        },
+        },       
         methods: {
             getImage() {
                 let image = this.product.images ? '/storage/'+ this.product.images : 'https://via.placeholder.com/200'
                 return image
             },               
             update() {
-                this.form.put(this.route('products.update', this.product.id))
+                this.$inertia.post(this.route('products.update', {
+                    product: this.product.id,
+                    _method: 'put'
+                }), this.form)
             },
             destroy() {
                 if (confirm('Are you sure you want to delete this product?')) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,6 +30,7 @@ class UpdateProductRequest extends FormRequest
             'category_id' => ['required'],
             'description' => ['required', 'string', 'max:255'],
             'date' => ['date'],
+            'images' => ['nullable', 'image', 'mimes:png,jpg,jpeg,svg,gif']
         ];
     }
 }
