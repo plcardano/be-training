@@ -91,7 +91,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    {{ product.date }}
+                                                    {{ formatDate(product.date) }}
                                                 </div>
                                                 </div>
                                             </td>
@@ -135,18 +135,9 @@
             Link
         },
         props: {
-            value: String,
             products: Object,
             filters: Object,
             categories: Array
-        },
-        data() {
-            return {
-                params: {
-                    search: null,
-                    category: null,
-                }
-            }
         },
         data() {
             return {
@@ -173,6 +164,9 @@
                     this.$inertia.delete(this.route('products.destroy', id))
                 }
             },
+            formatDate(date) {
+                return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(date))
+            }
         },
     })
 </script>

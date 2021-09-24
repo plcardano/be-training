@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,10 @@ class Product extends Model
         'description',
         'date',
         'images'
+    ];
+
+    protected $casts = [
+        'date' => 'datetime:Y-m-d\TH:i:s'
     ];
 
     public function category()
@@ -36,4 +41,10 @@ class Product extends Model
             });
         });    
     }
+
+    // public function getDateAttribute($value)
+    // {
+    //     return Carbon::parse($value)->format('d-m-Y');
+    // }
+
 }

@@ -43,11 +43,6 @@
                             </div>
 
                             <div class="mt-4">
-                                <jet-label for="date" value="Date" />
-                                <jet-input :value="form.date" name="date" class="mt-1 block w-full" type="text" disabled />
-                            </div>
-
-                            <div class="mt-4">
                                 <jet-label for="date" value="Update Date" />
                                 <jet-input type="datetime-local" class="mt-1 block w-full" v-model="form.date" :error="form.errors.date" />
                             </div>
